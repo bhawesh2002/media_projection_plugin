@@ -20,14 +20,8 @@ class _MyAppState extends State<MyApp> {
   Exception? error;
   final _mediaProjectionPlugin = MediaProjectionPlugin();
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
+  Future<void> startScreenCapture() async {
     bool started = false;
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
@@ -54,25 +48,31 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Plugin example app')),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Video Capture Running: $_videoCaptureStarted'),
-            SizedBox(height: 20),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(_videoCaptureStarted ? Icons.pause : Icons.play_arrow),
-            ),
-            if (error != null)
-              Text(
-                "$error",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Video Capture Running: $_videoCaptureStarted'),
+              SizedBox(height: 20),
+              IconButton(
+                onPressed: () async {
+                  await startScreenCapture();
+                },
+                icon: Icon(
+                  _videoCaptureStarted ? Icons.pause : Icons.play_arrow,
                 ),
               ),
-          ],
+              if (error != null)
+                Text(
+                  "$error",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
