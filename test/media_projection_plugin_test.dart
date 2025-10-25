@@ -9,7 +9,7 @@ class MockMediaProjectionPluginPlatform
     implements MediaProjectionPluginPlatform {
 
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
+  Future<bool?> startScreenCapture() => Future.value(true);
 }
 
 void main() {
@@ -19,11 +19,11 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelMediaProjectionPlugin>());
   });
 
-  test('getPlatformVersion', () async {
+  test('startScreenCapture', () async {
     MediaProjectionPlugin mediaProjectionPlugin = MediaProjectionPlugin();
     MockMediaProjectionPluginPlatform fakePlatform = MockMediaProjectionPluginPlatform();
     MediaProjectionPluginPlatform.instance = fakePlatform;
 
-    expect(await mediaProjectionPlugin.getPlatformVersion(), '42');
+    expect(await mediaProjectionPlugin.startScreenCapture(), true);
   });
 }

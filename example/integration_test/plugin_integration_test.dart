@@ -15,11 +15,11 @@ import 'package:media_projection_plugin/media_projection_plugin.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('getPlatformVersion test', (WidgetTester tester) async {
+  testWidgets('startScreenCapture test', (WidgetTester tester) async {
     final MediaProjectionPlugin plugin = MediaProjectionPlugin();
-    final String? version = await plugin.getPlatformVersion();
+    final bool? result = await plugin.startScreenCapture();
     // The version string depends on the host platform running the test, so
     // just assert that some non-empty string is returned.
-    expect(version?.isNotEmpty, true);
+    expect(result, true);
   });
 }
