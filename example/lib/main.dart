@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:media_projection_plugin/media_projection_plugin.dart';
 
@@ -16,7 +16,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  bool _videoCaptureStarted = false;
+  Exception? error;
   final _mediaProjectionPlugin = MediaProjectionPlugin();
 
   @override
@@ -27,14 +28,15 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
+    bool started = false;
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _mediaProjectionPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      final bool? res = await _mediaProjectionPlugin.startScreenCapture();
+      started = res ?? false;
+    } on PlatformException catch (e) {
+      started = false;
+      error = e;
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -43,7 +45,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _videoCaptureStarted = started;
     });
   }
 
@@ -51,11 +53,26 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        appBar: AppBar(title: const Text('Plugin example app')),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Video Capture Running: $_videoCaptureStarted'),
+            SizedBox(height: 20),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(_videoCaptureStarted ? Icons.pause : Icons.play_arrow),
+            ),
+            if (error != null)
+              Text(
+                "$error",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+          ],
         ),
       ),
     );
