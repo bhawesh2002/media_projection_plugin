@@ -23,7 +23,7 @@ abstract class MediaProjectionPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<bool?> startScreenCapture(){
+    throw UnimplementedError("startScreenCapture() is not implemented");
   }
 }
