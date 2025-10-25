@@ -7,11 +7,15 @@ import 'media_projection_plugin_platform_interface.dart';
 class MethodChannelMediaProjectionPlugin extends MediaProjectionPluginPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel('com.media_projection_plugin/video');
+  final methodChannel = const MethodChannel(
+    'com/media_projection_plugin/video',
+  );
 
   @override
   Future<bool?> startScreenCapture() async {
-    final result = await methodChannel.invokeMethod<String>('startScreenCapture');
-     return result as bool;
+    final result = await methodChannel.invokeMethod<bool?>(
+      'startScreenCapture',
+    );
+    return result as bool;
   }
 }
