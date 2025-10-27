@@ -95,6 +95,8 @@ class MediaProjectionService : Service() {
         mediaRecorder?.release()
         mediaRecorder = null
         mediaProjection?.stop()
+        mediaProjection = null
         virtualDisplay?.release()
+        virtualDisplay = null
     }
 }
