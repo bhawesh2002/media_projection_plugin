@@ -20,10 +20,15 @@ class MediaProjectionPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+
         when (call.method) {
             "start_projection" -> {
                 try {
-                    mediaProjectionService.startProjection(request = call.arguments as MediaProjectionRequest)
+                    val arguments = call.arguments<Map<String, Any>>()!!
+                    val request:String = arguments["request"] as String
+                    mediaProjectionService.startProjection(request = MediaProjectionRequest.fromJson(
+                        request,
+                    ))
                     result.success(true)
                 }catch (e: Exception){
                     result.error("PROJECTION_START_ERROR", e.toString(), e)
