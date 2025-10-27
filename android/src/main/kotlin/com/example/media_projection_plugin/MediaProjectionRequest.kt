@@ -1,21 +1,20 @@
 package com.example.media_projection_plugin
 
-import kotlin.time.Duration
 import android.media.MediaRecorder
 import android.media.projection.MediaProjection
-import java.io.File
 
 /**
- * @param audioOnly If `true`  MediaProjecton will capture audio only. Enabling will ignore the `videoRecordingProps`.
+ * @param audioOnly If `true`  MediaProjection will capture audio only. Enabling will ignore the `videoRecordingProps`.
  */
 class MediaProjectionRequest(
     val audioOnly: Boolean = false,
-    val videoRecordingProps:VideoRecordingProps  = VideoRecordingProps(),
+    val videoRecordingProps: VideoRecordingProps = VideoRecordingProps(),
     val audioRecordingProps: AudioRecordingProps = AudioRecordingProps(),
     var outputPath: String?,
     val fileName: String?,
     val exitCallback: MediaProjection.Callback?,
-    val stopDuration: Duration,
+    val maxDurationMs: Int?,
+    val maxFileSizeBytes: Long?,
 )
 
 
@@ -26,12 +25,15 @@ class VideoRecordingProps(
     var screenHeight: Int? = null,
     val videoOpFormat: Int = MediaRecorder.OutputFormat.MPEG_4,
     val dpi: Int = 320,
-    val videoBitrate: Int = 320,
+    val videoBitrate: Int = 6 * 1024 * 1024, // 6 Mbps
+    val fps: Int = 30,
 )
 
 class AudioRecordingProps(
     val audioSource: Int = MediaRecorder.AudioSource.DEFAULT,
     val audioEncoder: Int = MediaRecorder.AudioEncoder.DEFAULT,
-    val audioBitrate: Int = 320,
+    val audioBitrate: Int = 128 * 1024, // 128 kbps
     val audioOpFormat: Int = MediaRecorder.OutputFormat.AAC_ADTS,
+    val audioChannels: Int = 1,
+    val audioSamplingRate: Int = 44100, // 44.1 kHz
 )
