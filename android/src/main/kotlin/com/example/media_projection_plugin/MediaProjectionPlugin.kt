@@ -4,30 +4,42 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
-/** MediaProjectionPlugin */
-class MediaProjectionPlugin: FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private lateinit var channel : MethodChannel
+class MediaProjectionPlugin : FlutterPlugin, MethodCallHandler {
 
-  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "media_projection_plugin")
-    channel.setMethodCallHandler(this)
-  }
+    private lateinit var channel: MethodChannel
 
-  override fun onMethodCall(call: MethodCall, result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else {
-      result.notImplemented()
+    private val mediaProjectionService: MediaProjectionService = MediaProjectionService()
+
+    override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        channel = MethodChannel(binding.binaryMessenger, "com.media_projection_plugin/media_plugin")
     }
-  }
 
-  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
-  }
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
+
+    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+        when (call.method) {
+            "start_projection" -> {
+                try {
+                    mediaProjectionService.startProjection(request = call.arguments as MediaProjectionRequest)
+                    result.success(true)
+                }catch (e: Exception){
+                    result.error("PROJECTION_START_ERROR", e.toString(), e)
+                }
+            }
+            "stop_projection" -> {
+                try {
+                    mediaProjectionService.stopProjection()
+                    result.success(true)
+                }catch (e: Exception){
+                    result.error("PROJECTION_STOP_ERROR", e.toString(), e)
+                }
+
+            }
+
+            else -> result.notImplemented()
+        }
+    }
 }
