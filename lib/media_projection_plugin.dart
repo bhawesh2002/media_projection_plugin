@@ -8,4 +8,8 @@ class MediaProjectionPlugin {
       projectionRequest,
     );
   }
+
+  Future<bool?> stopProjection({MediaProjectionRequest? projectionRequest}) {
+    return MediaProjectionPluginPlatform.instance.stopProjection();
+  }
 }

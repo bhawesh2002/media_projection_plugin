@@ -28,4 +28,8 @@ abstract class MediaProjectionPluginPlatform extends PlatformInterface {
   Future<bool?> startProjection(MediaProjectionRequest? projectionRequest) {
     throw UnimplementedError("startProjection() is not implemented");
   }
+
+  Future<bool?> stopProjection() {
+    throw UnimplementedError("stopProjection() is not implemented");
+  }
 }
