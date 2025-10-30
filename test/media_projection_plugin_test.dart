@@ -7,23 +7,25 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockMediaProjectionPluginPlatform
     with MockPlatformInterfaceMixin
     implements MediaProjectionPluginPlatform {
-
+  MediaProjectionPlugin projectionPlugin = MediaProjectionPlugin();
   @override
-  Future<bool?> startScreenCapture() => Future.value(true);
+  Future<bool?> startProjection(projectionPlugin) => Future.value(true);
 }
 
 void main() {
-  final MediaProjectionPluginPlatform initialPlatform = MediaProjectionPluginPlatform.instance;
+  final MediaProjectionPluginPlatform initialPlatform =
+      MediaProjectionPluginPlatform.instance;
 
   test('$MethodChannelMediaProjectionPlugin is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelMediaProjectionPlugin>());
   });
 
-  test('startScreenCapture', () async {
+  test('startProjection', () async {
     MediaProjectionPlugin mediaProjectionPlugin = MediaProjectionPlugin();
-    MockMediaProjectionPluginPlatform fakePlatform = MockMediaProjectionPluginPlatform();
+    MockMediaProjectionPluginPlatform fakePlatform =
+        MockMediaProjectionPluginPlatform();
     MediaProjectionPluginPlatform.instance = fakePlatform;
 
-    expect(await mediaProjectionPlugin.startScreenCapture(), true);
+    expect(await mediaProjectionPlugin.startProjection(), true);
   });
 }

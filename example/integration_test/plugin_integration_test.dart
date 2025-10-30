@@ -6,7 +6,6 @@
 // For more information about Flutter integration tests, please see
 // https://flutter.dev/to/integration-testing
 
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -15,9 +14,9 @@ import 'package:media_projection_plugin/media_projection_plugin.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('startScreenCapture test', (WidgetTester tester) async {
+  testWidgets('startProjection test', (WidgetTester tester) async {
     final MediaProjectionPlugin plugin = MediaProjectionPlugin();
-    final bool? result = await plugin.startScreenCapture();
+    final bool? result = await plugin.startProjection();
     // The version string depends on the host platform running the test, so
     // just assert that some non-empty string is returned.
     expect(result, true);
