@@ -10,6 +10,9 @@ class MockMediaProjectionPluginPlatform
   MediaProjectionPlugin projectionPlugin = MediaProjectionPlugin();
   @override
   Future<bool?> startProjection(projectionPlugin) => Future.value(true);
+
+  @override
+  Future<bool?> stopProjection() => Future.value(true);
 }
 
 void main() {
