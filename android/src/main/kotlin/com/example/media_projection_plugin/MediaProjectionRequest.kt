@@ -1,5 +1,6 @@
 package com.example.media_projection_plugin
 
+import android.hardware.display.DisplayManager
 import android.media.MediaRecorder
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
@@ -33,6 +34,7 @@ data class VideoRecordingProps(
     val dpi: Int = 320,
     val videoBitrate: Int = 6 * 1024 * 1024, // 6 Mbps
     val fps: Int = 30,
+    val flag: Int = DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR
 ){
     companion object {
         @OptIn(InternalSerializationApi::class)
