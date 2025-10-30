@@ -21,12 +21,12 @@ class _MyAppState extends State<MyApp> {
   final _mediaProjectionPlugin = MediaProjectionPlugin();
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> startScreenCapture() async {
+  Future<void> startProjection() async {
     bool started = false;
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      final bool? res = await _mediaProjectionPlugin.startScreenCapture();
+      final bool? res = await _mediaProjectionPlugin.startProjection();
       started = res ?? false;
     } on PlatformException catch (e) {
       started = false;
@@ -43,6 +43,28 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> stopProjection() async {
+    if (!_videoCaptureStarted) return;
+
+    bool stopped = false;
+    try {
+      final bool? res = await _mediaProjectionPlugin.stopProjection();
+      stopped = res ?? false;
+    } on PlatformException catch (e) {
+      stopped = false;
+      error = e;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _videoCaptureStarted = stopped;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +78,11 @@ class _MyAppState extends State<MyApp> {
               SizedBox(height: 20),
               IconButton(
                 onPressed: () async {
-                  await startScreenCapture();
+                  if (_videoCaptureStarted) {
+                    await startProjection();
+                  } else {
+                    await stopProjection();
+                  }
                 },
                 icon: Icon(
                   _videoCaptureStarted ? Icons.pause : Icons.play_arrow,
