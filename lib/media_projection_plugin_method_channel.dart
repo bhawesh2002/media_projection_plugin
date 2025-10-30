@@ -9,7 +9,7 @@ class MethodChannelMediaProjectionPlugin extends MediaProjectionPluginPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel(
-    'com/media_projection_plugin/video',
+    'com.media_projection_plugin/media_plugin',
   );
 
   @override
