@@ -1,3 +1,4 @@
+import 'package:media_projection_plugin/models/media_projection_request.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'media_projection_plugin_method_channel.dart';
@@ -8,7 +9,8 @@ abstract class MediaProjectionPluginPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static MediaProjectionPluginPlatform _instance = MethodChannelMediaProjectionPlugin();
+  static MediaProjectionPluginPlatform _instance =
+      MethodChannelMediaProjectionPlugin();
 
   /// The default instance of [MediaProjectionPluginPlatform] to use.
   ///
@@ -23,7 +25,7 @@ abstract class MediaProjectionPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<bool?> startScreenCapture(){
-    throw UnimplementedError("startScreenCapture() is not implemented");
+  Future<bool?> startProjection(MediaProjectionRequest? projectionRequest) {
+    throw UnimplementedError("startProjection() is not implemented");
   }
 }

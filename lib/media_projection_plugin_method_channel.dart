@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:media_projection_plugin/models/media_projection_request.dart';
 
 import 'media_projection_plugin_platform_interface.dart';
 
@@ -12,9 +13,13 @@ class MethodChannelMediaProjectionPlugin extends MediaProjectionPluginPlatform {
   );
 
   @override
-  Future<bool?> startScreenCapture() async {
+  Future<bool?> startProjection(
+    MediaProjectionRequest? projectionRequest,
+  ) async {
+    projectionRequest ??= MediaProjectionRequest();
     final result = await methodChannel.invokeMethod<bool?>(
-      'startScreenCapture',
+      'startProjection',
+      projectionRequest.toJson(),
     );
     return result as bool;
   }
