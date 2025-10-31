@@ -17,6 +17,9 @@ import io.flutter.plugin.common.PluginRegistry
 class MediaProjectionPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     PluginRegistry.ActivityResultListener {
 
+
+    private val channelBase:String = "com.media_projection_plugin"
+
     private var activity: Activity? = null
     private var context: Context? = null
 
@@ -27,7 +30,7 @@ class MediaProjectionPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     private var pendingProjectionResult: Result? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(binding.binaryMessenger, "com.media_projection_plugin/media_plugin")
+        channel = MethodChannel(binding.binaryMessenger, "$channelBase/media_plugin")
         channel.setMethodCallHandler(this)
         context = binding.applicationContext
         mediaProjectionManager = context?.getSystemService(
