@@ -76,10 +76,6 @@ class MediaProjectionPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
         val arguments = call.arguments<Map<String, Any>>()!!
 
         projectionRequest = arguments["request"] as? String?
-        if (projectionRequest == null) {
-            result.error("INVALID_REQUEST", "Request parameter is required", null)
-            return
-        }
         pendingProjectionResult = result
 
         try {
