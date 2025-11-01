@@ -18,7 +18,7 @@ class MethodChannelMediaProjectionPlugin extends MediaProjectionPluginPlatform {
   ) async {
     projectionRequest ??= MediaProjectionRequest();
     final result = await methodChannel.invokeMethod<bool?>(
-      'startProjection',
+      'start_projection',
       projectionRequest.toJson(),
     );
     return result ?? false;
@@ -26,7 +26,7 @@ class MethodChannelMediaProjectionPlugin extends MediaProjectionPluginPlatform {
 
   @override
   Future<bool?> stopProjection() async {
-    final result = await methodChannel.invokeMethod<bool?>('stop_projecton');
+    final result = await methodChannel.invokeMethod<bool?>('stop_projection');
     return result ?? false;
   }
 }
