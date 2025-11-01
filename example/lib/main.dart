@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
               SizedBox(height: 20),
               IconButton(
                 onPressed: () async {
-                  if (_videoCaptureStarted) {
+                  if (!_videoCaptureStarted) {
                     await startProjection();
                   } else {
                     await stopProjection();
