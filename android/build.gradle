@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.7.3")
+        classpath("com.android.tools.build:gradle:8.13.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
@@ -31,7 +31,7 @@ apply plugin: "org.jetbrains.kotlin.plugin.serialization" // Correct way to appl
 android {
     namespace = "com.example.media_projection_plugin"
 
-    compileSdk = 35
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
